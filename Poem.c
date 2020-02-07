@@ -1,6 +1,7 @@
 /*
     twinkle twinkle little star 
-    how i wonder what you are
+    how i wonder where you are
+    my dear friend
 
 
 
