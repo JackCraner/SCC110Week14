@@ -1,9 +1,3 @@
-
-public class Baddies
-
-{
-    
-	
 public class Baddies
 
 {
@@ -17,6 +11,3 @@ public class Baddies
 	
 }
 	
-}
-
-
