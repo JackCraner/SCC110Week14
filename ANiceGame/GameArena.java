@@ -18,6 +18,8 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 
 	private ArrayList<Ball> balls = new ArrayList<Ball>();
 	private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+	private ArrayList<Plane> planes = new ArrayList<Plane>();
+	private ArrayList<Baddies> baddiess = new ArrayList<Baddies>();
 
 	private boolean up = false;
 	private boolean down = false;
@@ -225,6 +227,50 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 			else
 			{
 				rectangles.add(r);
+			}
+		}
+	}
+	public void addPlane(Plane r)
+	{
+
+		synchronized (this)
+		{
+			if (planes.size() > 100000)
+			{
+				System.out.println("\n\n");
+				System.out.println(" ********************************************************* ");
+				System.out.println(" ***** Only 100000 Objects Supported per Game Arena! ***** ");
+				System.out.println(" ********************************************************* ");
+				System.out.println("\n");
+				System.out.println("-- Joe\n\n");
+
+				this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+			}
+			else
+			{
+				planes.add(r);
+			}
+		}
+	}
+	public void addBaddies(Baddies r)
+	{
+
+		synchronized (this)
+		{
+			if (baddiess.size() > 100000)
+			{
+				System.out.println("\n\n");
+				System.out.println(" ********************************************************* ");
+				System.out.println(" ***** Only 100000 Objects Supported per Game Arena! ***** ");
+				System.out.println(" ********************************************************* ");
+				System.out.println("\n");
+				System.out.println("-- Joe\n\n");
+
+				this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+			}
+			else
+			{
+				baddiess.add(r);
 			}
 		}
 	}
