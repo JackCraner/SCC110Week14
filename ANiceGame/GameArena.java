@@ -18,8 +18,7 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 
 	private ArrayList<Ball> balls = new ArrayList<Ball>();
 	private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-	private ArrayList<Plane> planes = new ArrayList<Plane>();
-	private ArrayList<Baddies> baddiess = new ArrayList<Baddies>();
+	
 
 	private boolean up = false;
 	private boolean down = false;
@@ -230,51 +229,8 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 			}
 		}
 	}
-	public void addPlane(Plane r)
-	{
-
-		synchronized (this)
-		{
-			if (planes.size() > 100000)
-			{
-				System.out.println("\n\n");
-				System.out.println(" ********************************************************* ");
-				System.out.println(" ***** Only 100000 Objects Supported per Game Arena! ***** ");
-				System.out.println(" ********************************************************* ");
-				System.out.println("\n");
-				System.out.println("-- Joe\n\n");
-
-				this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			}
-			else
-			{
-				planes.add(r);
-			}
-		}
-	}
-	public void addBaddies(Baddies r)
-	{
-
-		synchronized (this)
-		{
-			if (baddiess.size() > 100000)
-			{
-				System.out.println("\n\n");
-				System.out.println(" ********************************************************* ");
-				System.out.println(" ***** Only 100000 Objects Supported per Game Arena! ***** ");
-				System.out.println(" ********************************************************* ");
-				System.out.println("\n");
-				System.out.println("-- Joe\n\n");
-
-				this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			}
-			else
-			{
-				baddiess.add(r);
-			}
-		}
-	}
-
+	
+	
 	/**
 	 * Remove a Rectangle from the GameArena. 
 	 * Once a Rectangle is removed, it will no longer appear on the window. 
@@ -318,13 +274,13 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 	{
 		int code = e.getKeyCode();
 
-		if (code == KeyEvent.VK_UP)
+		if (code == KeyEvent.VK_W)
 			up = true;		
-		if (code == KeyEvent.VK_DOWN)
+		if (code == KeyEvent.VK_S)
 			down = true;		
-		if (code == KeyEvent.VK_LEFT)
+		if (code == KeyEvent.VK_A)
 			left = true;		
-		if (code == KeyEvent.VK_RIGHT)
+		if (code == KeyEvent.VK_D)
 			right = true;	
 		if (code == KeyEvent.VK_SPACE)
 			space = true;		
@@ -334,13 +290,13 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 	{
 		int code = e.getKeyCode();
 
-		if (code == KeyEvent.VK_UP)
+		if (code == KeyEvent.VK_W)
 			up = false;		
-		if (code == KeyEvent.VK_DOWN)
+		if (code == KeyEvent.VK_S)
 			down = false;		
-		if (code == KeyEvent.VK_LEFT)
+		if (code == KeyEvent.VK_A)
 			left = false;		
-		if (code == KeyEvent.VK_RIGHT)
+		if (code == KeyEvent.VK_D)
 			right = false;		
 		if (code == KeyEvent.VK_SPACE)
 			space = false;		
