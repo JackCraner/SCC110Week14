@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.lang.Math; 
 public class NiceGameDriver
 {
 
@@ -7,21 +8,22 @@ public class NiceGameDriver
         int gameTime = 0;
         int gameScore =0;
 
-        int numberBalls = 1;
+        int numberBalls = 40;
         Random rand = new Random(); 
         Ball footballs[] = new Ball[numberBalls];
 
 
         GameArena map = new GameArena(1000,1000);
-        Plane player = new Plane(5,400,400,1,5,"RED");
+        Plane player = new Plane(5,400,400,1,5,"GREEN");
         drawObjects(player,map);
 
         for (int i = 0; i< numberBalls; i++) 
         {
-        int rand_int1 = rand.nextInt(50);
+        int rand_int1 = rand.nextInt(20);
         int rand_int2 = (rand.nextInt(99));
-        footballs[i] = new Ball(500,500,20,"MAGENTA",rand_int2,rand_int1);
+        footballs[i] = new Ball(500,500,20,"MAGENTA",rand_int2, rand_int1);
         map.addBall(footballs[i]);
+        drawBoundaries(map);
         }
 
 
@@ -40,7 +42,7 @@ public class NiceGameDriver
             if (gameTime%20 == 0)
             {
                 gameScore+=1;
-                System.out.println(gameScore);
+              
             }
             if (map.upPressed())
             {
@@ -72,7 +74,7 @@ public class NiceGameDriver
             for (int i = 0; i< numberBalls; i++) 
             {
                 ballMovement(footballs[i],map);
-                checkCollision(player,map,footballs[i]);
+                checkCollision(player,map,footballs[i],gameScore);
             }
 
 
@@ -131,36 +133,66 @@ public class NiceGameDriver
             double movementValueY = (1 - pathAngleSplit) * ballObject.getPathSpeed();
             if ((ballObject.getXPosition() + movementValueX > (0.75*map.getArenaWidth()))||(ballObject.getXPosition() + movementValueX) <(0.25*map.getArenaWidth())) {
                 ballObject.setPathSpeed(-(ballObject.getPathSpeed()));
-                int rand_int2 = (rand.nextInt(100));
+                int rand_int2 = (rand.nextInt(140) + 40);
                 ballObject.setPathAngle(rand_int2);
+           
             }
             
             ballObject.setXPosition(ballObject.getXPosition() + movementValueX);
             
             if ((ballObject.getYPosition() + movementValueY > (0.75*map.getArenaHeight()))||(ballObject.getYPosition() + movementValueY) <(0.25*map.getArenaHeight())) {
                 ballObject.setPathSpeed(-(ballObject.getPathSpeed()));
-                int rand_int2 = (rand.nextInt(99));
+                int rand_int2 = (rand.nextInt(140)+40);
                 ballObject.setPathAngle(rand_int2);
+               
             }
             
+            if ((ballObject.getYPosition() + movementValueY > (0.78*map.getArenaHeight()))||(ballObject.getYPosition() + movementValueY) <(0.23*map.getArenaHeight())) {
+                map.removeBall(ballObject);
+            }
+            if ((ballObject.getXPosition() + movementValueX > (0.78*map.getArenaWidth()))||(ballObject.getXPosition() + movementValueX) <(0.23*map.getArenaWidth())) {
+                map.removeBall(ballObject);
+            }
             ballObject.setYPosition(ballObject.getYPosition() + movementValueY);
 
     }
-    public static void checkCollision(Plane plane1, GameArena map, Ball enemy)
+    public static void checkCollision(Plane plane1, GameArena map, Ball enemy, int gameScore)
     {
-        int counter = 0;
-        System.out.println(plane1.returnParts(0).getXPosition()+ " " + (int)enemy.getXPosition());
+       
+       
          for (int i = 0; i<plane1.getNumPart();i++)
         {
-           counter += counter;
-            if ((((plane1.returnParts(i).getXPosition() - enemy.getPathSpeed()) <= (int)enemy.getXPosition()) && ((int)enemy.getXPosition() <= (plane1.returnParts(i).getXPosition() - enemy.getPathSpeed()))) && (((plane1.returnParts(i).getYPosition() - enemy.getPathSpeed()) <= (int)enemy.getYPosition()) && ((int)enemy.getYPosition() <= (plane1.returnParts(i).getYPosition() - enemy.getPathSpeed()))))
+           
+            
+            if ((((plane1.returnParts(i).getXPosition() - Math.abs(enemy.getPathSpeed())) <= (int)enemy.getXPosition()) && ((int)enemy.getXPosition() <= (plane1.returnParts(i).getXPosition() + Math.abs(enemy.getPathSpeed())))) && (((plane1.returnParts(i).getYPosition() - Math.abs(enemy.getPathSpeed())) <= (int)enemy.getYPosition()) && ((int)enemy.getYPosition() <= (plane1.returnParts(i).getYPosition() + Math.abs(enemy.getPathSpeed())))))
             {
-                System.out.println("hello");
-                System.out.println(plane1.returnParts(i).getXPosition()+ " " + (int)enemy.getXPosition());
+                
                 plane1.returnParts(i).setColour("RED");
+                if (!(plane1.checkIfAlive()))
+                {
+                    System.out.println("You Lose, you score was: " + gameScore);
+                    System.exit(0);
+                }
+
             }
         }
 
+
+    }
+    public static void drawBoundaries(GameArena map)
+    {
+        Rectangle walls[] = new Rectangle[4];
+        int wallWidth = 5;
+        walls[0] = new Rectangle((map.getArenaHeight()*0.25)-wallWidth,(map.getArenaWidth()*0.25)-wallWidth,wallWidth,(map.getArenaHeight()/2) + wallWidth *4,"RED");
+        walls[1] = new Rectangle((map.getArenaHeight()*0.25)-wallWidth,(map.getArenaWidth()*0.25)-wallWidth,(map.getArenaWidth()/2)+ (wallWidth *4),wallWidth,"RED");
+        walls[2] = new Rectangle((map.getArenaHeight()*0.25)-wallWidth,(map.getArenaWidth()*0.75)+(2*wallWidth),(map.getArenaWidth()/2)+ (wallWidth *4),wallWidth,"RED");
+        walls[3] = new Rectangle((map.getArenaHeight()*0.75)+(2*wallWidth),(map.getArenaWidth()*0.25) - wallWidth,wallWidth,(map.getArenaHeight()/2)+ (wallWidth *4),"RED");
+        
+        
+        for (int i = 0; i<4;i++)
+        {
+           map.addRectangle(walls[i]);
+        }
 
     }
 

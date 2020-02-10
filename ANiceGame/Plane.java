@@ -32,5 +32,16 @@ public class Plane
         return parts[partNum];
 
     }
+    public boolean checkIfAlive()
+    {
+        for (int i = 0; i < numParts; i++)
+        {
+            if (parts[i].getColour() == "GREEN")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
