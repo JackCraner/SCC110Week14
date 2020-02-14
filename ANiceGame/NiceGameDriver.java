@@ -6,18 +6,18 @@ public class NiceGameDriver
     public static void main(String[] args)
     { 
         int gameTime = 0;
-        int gameScore =0;
+        int gameScore =0;               
 
         int numberBalls = 40;
         Random rand = new Random(); 
-        Ball footballs[] = new Ball[numberBalls];
+        Ball footballs[] = new Ball[numberBalls];               //area of balls
 
 
         GameArena map = new GameArena(1000,1000);
         Plane player = new Plane(5,400,400,1,5,"GREEN");
-        drawObjects(player,map);
+        drawObjects(player,map);                    //draws the plane
 
-        for (int i = 0; i< numberBalls; i++) 
+        for (int i = 0; i< numberBalls; i++)            //initializes the balls via their constructors
         {
         int rand_int1 = rand.nextInt(20);
         int rand_int2 = (rand.nextInt(99));
