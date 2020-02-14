@@ -8,24 +8,21 @@ public class NiceGameDriver
         int gameTime = 0;
         int gameScore =0;
 
-        int numberBalls = 40;
-        Random rand = new Random(); 
-        Ball footballs[] = new Ball[numberBalls];
+        int maxNumberBalls = 40;
+        int numberBalls = 4;
+        
+        Ball footballs[] = new Ball[maxNumberBalls];
 
 
-        GameArena map = new GameArena(1000,1000);
-        Plane player = new Plane(5,400,400,1,5,"GREEN");
+        GameArena map = new GameArena(500,500);
+        Plane player = new Plane(5,map.getArenaWidth()/3,map.getArenaHeight()/3,1,5,"GREEN");
         drawObjects(player,map);
 
         for (int i = 0; i< numberBalls; i++) 
         {
-        int rand_int1 = rand.nextInt(20);
-        int rand_int2 = (rand.nextInt(99));
-        footballs[i] = new Ball(500,500,20,"MAGENTA",rand_int2, rand_int1);
-        map.addBall(footballs[i]);
-        drawBoundaries(map);
+            addBall(i, footballs, map);
         }
-
+        drawBoundaries(map);
 
         while (true)
         {
@@ -42,7 +39,12 @@ public class NiceGameDriver
             if (gameTime%20 == 0)
             {
                 gameScore+=1;
-              
+                
+            }
+            if (gameScore%5 == 0 && gameScore>0)
+            {
+                addBall(numberBalls, footballs, map);
+                numberBalls +=1;
             }
             if (map.upPressed())
             {
@@ -131,30 +133,48 @@ public class NiceGameDriver
             double pathAngleSplit = ((double)(ballObject.getPathAngle() / (double)(100)));
             double movementValueX = pathAngleSplit * ballObject.getPathSpeed();
             double movementValueY = (1 - pathAngleSplit) * ballObject.getPathSpeed();
-            if ((ballObject.getXPosition() + movementValueX > (0.75*map.getArenaWidth()))||(ballObject.getXPosition() + movementValueX) <(0.25*map.getArenaWidth())) {
+            if ((ballObject.getXPosition() + movementValueX > (0.75*map.getArenaWidth()))) {
+                ballObject.setXPosition(ballObject.getXPosition()-ballObject.getSize());
                 ballObject.setPathSpeed(-(ballObject.getPathSpeed()));
                 int rand_int2 = (rand.nextInt(140) + 40);
                 ballObject.setPathAngle(rand_int2);
            
             }
+            if ((ballObject.getXPosition() + movementValueX) <(0.25*map.getArenaWidth()))
+            {
+                ballObject.setXPosition(ballObject.getXPosition()+ballObject.getSize());
+                ballObject.setPathSpeed(-(ballObject.getPathSpeed()));
+                int rand_int2 = (rand.nextInt(140) + 40);
+                ballObject.setPathAngle(rand_int2);
+            }
             
             ballObject.setXPosition(ballObject.getXPosition() + movementValueX);
             
-            if ((ballObject.getYPosition() + movementValueY > (0.75*map.getArenaHeight()))||(ballObject.getYPosition() + movementValueY) <(0.25*map.getArenaHeight())) {
+            if ((ballObject.getYPosition() + movementValueY > (0.75*map.getArenaHeight()))) 
+            {
+                ballObject.setYPosition(ballObject.getYPosition()-ballObject.getSize());
                 ballObject.setPathSpeed(-(ballObject.getPathSpeed()));
                 int rand_int2 = (rand.nextInt(140)+40);
                 ballObject.setPathAngle(rand_int2);
                
             }
-            
+            if ((ballObject.getYPosition() + movementValueY) <(0.25*map.getArenaHeight()))
+            {
+                ballObject.setYPosition(ballObject.getYPosition()+ballObject.getSize());
+                ballObject.setPathSpeed(-(ballObject.getPathSpeed()));
+                int rand_int2 = (rand.nextInt(140)+40);
+                ballObject.setPathAngle(rand_int2);
+            }
+          /*  
             if ((ballObject.getYPosition() + movementValueY > (0.78*map.getArenaHeight()))||(ballObject.getYPosition() + movementValueY) <(0.23*map.getArenaHeight())) {
                 map.removeBall(ballObject);
             }
             if ((ballObject.getXPosition() + movementValueX > (0.78*map.getArenaWidth()))||(ballObject.getXPosition() + movementValueX) <(0.23*map.getArenaWidth())) {
                 map.removeBall(ballObject);
             }
+            */
             ballObject.setYPosition(ballObject.getYPosition() + movementValueY);
-
+            
     }
     public static void checkCollision(Plane plane1, GameArena map, Ball enemy, int gameScore)
     {
@@ -177,6 +197,16 @@ public class NiceGameDriver
             }
         }
 
+
+    }
+    public static void addBall(int ballNum, Ball ballList[] ,GameArena map)
+    {
+        Random rand = new Random(); 
+        int rand_int1 = rand.nextInt(20);
+        int rand_int2 = (rand.nextInt(99));
+        ballList[ballNum] = new Ball(map.getArenaWidth()/2,map.getArenaHeight()/2,20,"MAGENTA",rand_int2, rand_int1);
+        map.addBall(ballList[ballNum]);
+        
 
     }
     public static void drawBoundaries(GameArena map)
