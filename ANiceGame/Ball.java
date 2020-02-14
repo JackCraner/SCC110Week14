@@ -37,12 +37,14 @@ public class Ball
 		colour = col;
 		pathAngle = a;
 		pathSpeed = b;
+		
 	}	
 
 	/**
 	 * Obtains the current position of this Ball.
 	 * @return the X coordinate of this Ball within the GameArena.
 	 */
+	
 	public double getXPosition()
 	{
 		return xPosition;
@@ -63,6 +65,7 @@ public class Ball
 	{
 		this.pathAngle = x;
 	}
+	
 	/**
 	 * Obtains the current position of this Ball.
 	 * @return the Y coordinate of this Ball within the GameArena.
