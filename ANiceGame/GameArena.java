@@ -26,6 +26,8 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 	private boolean right = false;
 	private boolean space = false;
 
+	private int score=0;
+
 	private boolean rendered = false;
 
 	/**
@@ -41,7 +43,7 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 		this.setResizable(false);
 		this.setBackground(Color.BLACK);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);		
+		this.setVisible(true);	
 	
 		Thread t = new Thread(this);
 		t.start();
@@ -72,6 +74,11 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 		super.setSize(arenaWidth + this.getInsets().left + this.getInsets().right, arenaHeight + this.getInsets().top + this.getInsets().bottom);
 	}	
 
+
+public void bumpScore(int x)
+	{
+		score = x;
+	}
 	/**
 	 * Close this GameArena window.
 	 * 
@@ -116,7 +123,9 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 					g.fillRect((int)b.getXPosition(), (int)b.getYPosition(), (int)b.getWidth(), (int)b.getHeight());
 				}
 			}
-					
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 50)); 
+			g.setColor(this.getColourFromString("GREEN"));
+		    g.drawString("Score: "+score,100,100);
 			window.drawImage(i, this.getInsets().left, this.getInsets().top, this);
 		}
 	}
@@ -274,13 +283,13 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 	{
 		int code = e.getKeyCode();
 
-		if (code == KeyEvent.VK_W)
+		if ((code == KeyEvent.VK_W)||(code == KeyEvent.VK_UP))
 			up = true;		
-		if (code == KeyEvent.VK_S)
+		if ((code == KeyEvent.VK_S)||(code == KeyEvent.VK_DOWN))
 			down = true;		
-		if (code == KeyEvent.VK_A)
+		if ((code == KeyEvent.VK_A)||(code == KeyEvent.VK_LEFT))
 			left = true;		
-		if (code == KeyEvent.VK_D)
+		if ((code == KeyEvent.VK_D)||(code == KeyEvent.VK_RIGHT))
 			right = true;	
 		if (code == KeyEvent.VK_SPACE)
 			space = true;		
@@ -290,13 +299,13 @@ public class GameArena extends JFrame implements Runnable, KeyListener
 	{
 		int code = e.getKeyCode();
 
-		if (code == KeyEvent.VK_W)
+		if ((code == KeyEvent.VK_W)||(code == KeyEvent.VK_UP))
 			up = false;		
-		if (code == KeyEvent.VK_S)
+		if ((code == KeyEvent.VK_S)||(code == KeyEvent.VK_DOWN))
 			down = false;		
-		if (code == KeyEvent.VK_A)
+		if ((code == KeyEvent.VK_A)||(code == KeyEvent.VK_LEFT))
 			left = false;		
-		if (code == KeyEvent.VK_D)
+		if ((code == KeyEvent.VK_D)||(code == KeyEvent.VK_RIGHT))
 			right = false;		
 		if (code == KeyEvent.VK_SPACE)
 			space = false;		
