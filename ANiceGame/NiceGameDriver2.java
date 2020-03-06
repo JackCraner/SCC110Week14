@@ -1,32 +1,31 @@
+
 import java.util.Random;
 import java.lang.Math; 
-import java.util.List;
-import java.util.ArrayList;
-public class NiceGameDriver
+public class NiceGameDriver2
 {
 
     public static void main(String[] args)
     { 
         int gameTime = 0;
-        int gameScore =0;               
+        int gameScore =0;
 
         int maxNumberBalls = 40;
         int numberBalls = 4;
-        boolean scoreIncrement = true;
-        List<Ball> footballs = new ArrayList<>();
-        boolean gameRunning = true;
+        
+        Ball footballs[] = new Ball[maxNumberBalls];
+
 
         GameArena map = new GameArena(1000,1000);
         Plane player = new Plane(5,map.getArenaWidth()/3,map.getArenaHeight()/3,1,5,"GREEN");
         drawObjects(player,map);
 
-        for (int i = 0; i< numberBalls; i++)            //initializes the balls via their constructors
+        for (int i = 0; i< numberBalls; i++) 
         {
             addBall(i, footballs, map);
         }
         drawBoundaries(map);
 
-        while (gameRunning)
+        while (true)
         {
             
             try 
@@ -38,11 +37,10 @@ public class NiceGameDriver
                 Thread.currentThread().interrupt();
             }
             gameTime +=1;
-            if (gameTime%10 == 0 && scoreIncrement)
+            if (gameTime%20 == 0)
             {
                 gameScore+=1;
-                map.bumpScore(gameScore);
-                addBall(numberBalls, footballs, map);
+                 addBall(numberBalls, footballs, map);
                 numberBalls +=1;
                 
             }
@@ -70,16 +68,14 @@ public class NiceGameDriver
             if (map.spacePressed())
             {
                 player.setSpeed(15);
-                scoreIncrement = false;
             }else{
                 player.setSpeed(5);
-                scoreIncrement = true;
             }
 
             for (int i = 0; i< numberBalls; i++) 
             {
-                ballMovement(footballs.get(i),map);
-                checkCollision(player,map,footballs.get(i),gameScore, gameRunning);
+                ballMovement(footballs[i],map);
+                checkCollision(player,map,footballs[i],gameScore);
             }
 
 
@@ -147,7 +143,7 @@ public class NiceGameDriver
             {
                 ballObject.setXPosition(ballObject.getXPosition()+ballObject.getSize());
                 ballObject.setPathSpeed(-(ballObject.getPathSpeed()));
-                int rand_int2 = (rand.nextInt(170) + 10);
+                int rand_int2 = (rand.nextInt(140) + 40);
                 ballObject.setPathAngle(rand_int2);
             }
             
@@ -157,7 +153,7 @@ public class NiceGameDriver
             {
                 ballObject.setYPosition(ballObject.getYPosition()-ballObject.getSize());
                 ballObject.setPathSpeed(-(ballObject.getPathSpeed()));
-                int rand_int2 = (rand.nextInt(170)+10);
+                int rand_int2 = (rand.nextInt(140)+40);
                 ballObject.setPathAngle(rand_int2);
                
             }
@@ -179,7 +175,7 @@ public class NiceGameDriver
             ballObject.setYPosition(ballObject.getYPosition() + movementValueY);
             
     }
-    public static void checkCollision(Plane plane1, GameArena map, Ball enemy, int gameScore, boolean checkGameRunning)
+    public static void checkCollision(Plane plane1, GameArena map, Ball enemy, int gameScore)
     {
        
        
@@ -193,9 +189,8 @@ public class NiceGameDriver
                 plane1.returnParts(i).setColour("RED");
                 if (!(plane1.checkIfAlive()))
                 {
-                    checkGameRunning = false;
                     System.out.println("You Lose, you score was: " + gameScore);
-                  
+                    System.exit(0);
                 }
 
             }
@@ -203,14 +198,13 @@ public class NiceGameDriver
 
 
     }
-    public static void addBall(int ballNum, List<Ball> listOfBalls ,GameArena map)
+    public static void addBall(int ballNum, Ball ballList[] ,GameArena map)
     {
         Random rand = new Random(); 
         int rand_int1 = rand.nextInt(20);
         int rand_int2 = (rand.nextInt(99));
-        Ball newitem = new Ball(map.getArenaWidth()/2,map.getArenaHeight()/2,20,"MAGENTA",rand_int2, rand_int1);
-        listOfBalls.add(newitem);
-        map.addBall(listOfBalls.get(ballNum));
+        ballList[ballNum] = new Ball(map.getArenaWidth()/2,map.getArenaHeight()/2,20,"MAGENTA",rand_int2, rand_int1);
+        map.addBall(ballList[ballNum]);
         
 
     }
